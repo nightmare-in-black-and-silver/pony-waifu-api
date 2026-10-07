@@ -545,4 +545,7 @@ TSWLatexianTemp*
 #*Notes.bib
 
 
-cast.json
+/configuration/*
+!/configuration/*.sample.json
+
+/assets/expressions/shakedown

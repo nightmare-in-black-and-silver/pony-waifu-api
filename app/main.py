@@ -2,15 +2,33 @@ from fastapi import FastAPI
 
 from app.api.routes.v1.health import router as health_router
 from app.api.routes.v1.characters import router as characters_router
+from app.api.routes.v1.chat import router as chat_router
+
 
 from app.config import Config
 from app.services.cast_service import CastService
+from app.services.api_service import ApiService
+from app.services.prompt_service import PromptService
+from app.services.user_service import UserService
 
 
 config = Config()
 
 cast_service = CastService(config)
 cast_service.load()
+
+prompt_service = PromptService(config)
+prompt_service.load()
+
+user_service = UserService(config)
+user_service.load()
+
+
+api_service = ApiService(config, prompt_service, user_service)
+api_service.load()
+
+
+
 
 
 app = FastAPI(
@@ -20,8 +38,10 @@ app = FastAPI(
 
 app.state.config = config
 app.state.cast_service = cast_service
-
+app.state.api_service = api_service
+app.state.prompt_service = prompt_service
 
 # V1 Routers
 app.include_router(health_router, prefix="/v1")
 app.include_router(characters_router, prefix="/v1")
+app.include_router(chat_router, prefix="/v1")
