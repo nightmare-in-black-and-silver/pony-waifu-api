@@ -1,11 +1,8 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 
-from app.api.routes.v1.health import router as health_router
+router = APIRouter()
 
 
-app = FastAPI(
-    title="Pony Waifu API",
-    version="0.1.0",
-)
-
-app.include_router(health_router, prefix="/v1")
+@router.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}

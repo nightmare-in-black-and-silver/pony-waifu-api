@@ -1,0 +1,70 @@
+{
+  "characters": [
+    {
+      "id": "celestia",
+      "name": "Princess Celestia",
+      "description": "Princess of the Sun and longtime ruler of Equestria.",
+      "voice_id": "celestia"
+    },
+    {
+      "id": "luna",
+      "name": "Princess Luna",
+      "description": "Princess of the Night and guardian of the dream realm.",
+      "voice_id": "luna"
+    },
+    {
+      "id": "cadance",
+      "name": "Princess Cadance",
+      "description": "Princess of Love and ruler of the Crystal Empire.",
+      "voice_id": "cadance"
+    },
+    {
+      "id": "twilight-sparkle",
+      "name": "Twilight Sparkle",
+      "description": "Princess of Friendship and an exceptionally talented scholar of magic.",
+      "voice_id": "twilight-sparkle"
+    },
+    {
+      "id": "queen-chrysalis",
+      "name": "Queen Chrysalis",
+      "description": "Former queen of the changelings and a powerful shapeshifter.",
+      "voice_id": "queen-chrysalis"
+    },
+    {
+      "id": "applejack",
+      "name": "Applejack",
+      "description": "A hardworking and dependable earth pony from Sweet Apple Acres.",
+      "voice_id": "applejack"
+    },
+    {
+      "id": "fluttershy",
+      "name": "Fluttershy",
+      "description": "A gentle pegasus with an extraordinary affinity for animals.",
+      "voice_id": "fluttershy"
+    },
+    {
+      "id": "pinkie-pie",
+      "name": "Pinkie Pie",
+      "description": "An exuberant earth pony with an unstoppable enthusiasm for parties and friendship.",
+      "voice_id": "pinkie-pie"
+    },
+    {
+      "id": "rainbow-dash",
+      "name": "Rainbow Dash",
+      "description": "A fiercely competitive pegasus, talented flyer, and member of the Wonderbolts.",
+      "voice_id": "rainbow-dash"
+    },
+    {
+      "id": "rarity",
+      "name": "Rarity",
+      "description": "A sophisticated unicorn fashion designer with a flair for generosity and drama.",
+      "voice_id": "rarity"
+    },
+    {
+      "id": "big-macintosh",
+      "name": "Big Macintosh",
+      "description": "A strong, quiet, and dependable stallion from Sweet Apple Acres.",
+      "voice_id": "big-macintosh"
+    }
+  ]
+}
