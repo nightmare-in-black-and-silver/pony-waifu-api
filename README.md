@@ -1,32 +1,38 @@
-# Shakedown Voice API
+# Pony Waifu API
 
-A local API for real-time voice conversations with Shakedown.
+A local API for real-time voice conversations with AI-driven characters.
 
-The project provides the backend for a simple mobile voice-chat application. The phone acts primarily as a lightweight client, while speech recognition, character interaction, expression selection, and speech synthesis are handled by services running on the local server.
+The project provides the backend for lightweight voice-chat clients. The client handles recording, playback, and presentation, while speech recognition, character interaction, expression selection, conversation state, and speech synthesis are handled by the local server.
+
+The initial implementation is being developed around a single character, but the architecture is intended to support multiple characters with independent personalities, prompts, voices, expressions, and conversation histories.
 
 ## Planned Pipeline
 
 ```text
-Phone
+Client
   │
   │ Recorded audio
   ▼
-Shakedown Voice API
+Pony Waifu API
   │
   ├── Speech-to-Text
   │     └── Convert the user's recording to text
   │
-  ├── LM Studio
-  │     └── Generate an in-character Shakedown response
+  ├── Character / Conversation Context
+  │     └── Build the appropriate prompt and conversation history
+  │
+  ├── LLM
+  │     └── Generate an in-character response
   │
   ├── Expression Selection
   │     └── Determine the appropriate character expression
   │
-  └── F5-TTS
-        └── Generate Shakedown's spoken response
+  └── Text-to-Speech
+        └── Generate the character's spoken response
   │
   ▼
-Phone
+Client
+  ├── Transcript
   ├── Response text
   ├── Expression
   └── Generated audio
@@ -36,13 +42,15 @@ Phone
 
 The project is intended to:
 
-- Keep the mobile client extremely simple.
+- Keep clients lightweight and simple.
 - Run AI inference locally rather than relying on cloud services.
-- Maintain Shakedown's character, personality, and conversation history server-side.
+- Support multiple characters with independent configurations.
+- Maintain character personality, conversation context, and history server-side.
 - Support natural voice conversations rather than traditional long-form roleplay responses.
-- Return both dialogue and an appropriate character expression.
-- Generate spoken responses using F5-TTS.
+- Return structured character responses including dialogue and expressions.
+- Generate character-specific spoken responses.
 - Keep individual AI components replaceable as the project evolves.
+- Allow resource-intensive models to be loaded and unloaded as required.
 
 ## Planned Technology
 
@@ -56,20 +64,44 @@ The project is intended to:
 
 The exact components may change as development progresses.
 
-## API
+## Character Data
 
-The primary endpoint is expected to be:
+Characters are intended to be configuration rather than application code.
 
-```http
-POST /v1/pony/chat
+A character may eventually contain data such as:
+
+```text
+data/
+└── characters/
+    └── shakedown/
+        ├── character.json
+        ├── prompt.txt
+        ├── voice/
+        │   └── reference.wav
+        └── expressions/
+            ├── neutral.png
+            ├── angry.png
+            ├── amused.png
+            └── ...
 ```
 
-A request will contain a recorded voice message.
+This allows new characters to be added without implementing character-specific application logic.
 
-The response will eventually contain data similar to:
+## API
+
+The primary conversation endpoint is expected to accept a character identifier and a recorded voice message.
+
+For example:
+
+```http
+POST /v1/chat
+```
+
+A response may eventually contain data similar to:
 
 ```json
 {
+  "character": "shakedown",
   "transcript": "How was your day?",
   "reply": "Eh, pretty good. Nearly dropped a dumbbell on some asshole's hoof, though.",
   "expression": "amusement",
@@ -81,11 +113,25 @@ The exact API contract has not yet been finalised.
 
 ## Architecture
 
-Where practical, AI components may run directly within the Python application rather than as separate HTTP services.
+Where practical, AI components may run directly within the Python application rather than requiring separate HTTP services.
 
-LM Studio will remain an external inference service and will be accessed through its API.
+Components that already provide suitable inference servers, such as LM Studio, may remain external and be accessed through their APIs.
 
-The backend may also manage model lifecycles to balance performance and available system/GPU memory—for example, unloading an LLM before running TTS if both models cannot comfortably remain resident simultaneously.
+The backend may manage model lifecycles to balance latency and available system/GPU memory. Resource-intensive models may be loaded only when required and unloaded when another stage of the pipeline requires those resources.
+
+Individual components should remain isolated behind service interfaces so implementations can be replaced without changing the rest of the application.
+
+For example:
+
+```text
+SpeechToTextService
+LanguageModelService
+TextToSpeechService
+ExpressionService
+CharacterService
+```
+
+A local implementation could therefore be replaced with a remote service—or vice versa—without changing the public API.
 
 ## Development Status
 
@@ -94,29 +140,25 @@ The backend may also manage model lifecycles to balance performance and availabl
 Current priorities:
 
 1. Establish the FastAPI project structure.
-2. Implement a basic `/v1/pony/chat` endpoint.
-3. Integrate speech-to-text.
-4. Integrate LM Studio.
-5. Define structured LLM output for dialogue and expressions.
-6. Integrate F5-TTS.
-7. Build the lightweight mobile client.
+2. Implement basic health and conversation endpoints.
+3. Define the character configuration format.
+4. Integrate speech-to-text.
+5. Integrate LM Studio.
+6. Define structured LLM output for dialogue and expressions.
+7. Integrate F5-TTS.
+8. Implement conversation state/history.
+9. Build the first lightweight client.
 
 ## Why?
 
-Because apparently the reasonable response to wanting to talk to a fictional buff pony is to build an entire local AI voice pipeline.
+Because apparently the reasonable response to wanting to talk to fictional characters is to build an entire local AI voice infrastructure.
 
-## Important Terminology
+## Branching Strategy
 
-This project uses:
-
-```text
-/v1/pony
-```
-
-Not:
+The default branch is:
 
 ```text
-/v1/horse
+waifu
 ```
 
-This distinction is considered architecturally significant.
+This is a serious software engineering decision and should be treated accordingly.
