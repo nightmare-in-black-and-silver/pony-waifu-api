@@ -549,3 +549,4 @@ TSWLatexianTemp*
 !/configuration/*.sample.json
 
 /assets/expressions/shakedown
+/assets/voices/shakedown
