@@ -10,6 +10,7 @@ from app.services.cast_service import CastService
 from app.services.api_service import ApiService
 from app.services.prompt_service import PromptService
 from app.services.user_service import UserService
+from app.services.expression_service import ExpressionsService
 
 
 config = Config()
@@ -23,8 +24,14 @@ prompt_service.load()
 user_service = UserService(config)
 user_service.load()
 
+expression_service = ExpressionsService(config)
+expression_service.load()
 
-api_service = ApiService(config, prompt_service, user_service)
+
+api_service = ApiService(config, 
+                         prompt_service=prompt_service, 
+                         user_service=user_service, 
+                         expression_service=expression_service)
 api_service.load()
 
 

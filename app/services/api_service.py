@@ -1,7 +1,6 @@
 import json
 import httpx
-import re
-
+import asyncio
 
 
 from app.config import Config
@@ -9,6 +8,7 @@ from app.models.api.api import Api
 from app.models.cast.character import Character
 from app.services.prompt_service import PromptService
 from app.services.user_service import UserService
+from app.services.expression_service import ExpressionsService
 
 
 class ApiService:
@@ -17,9 +17,11 @@ class ApiService:
         config: Config,
         prompt_service: PromptService,
         user_service: UserService,
+        expression_service: ExpressionsService,
     ):
         self._config = config
         self._prompt_service = prompt_service
+        self._expression_service = expression_service
         self._user_service = user_service
         self._apis: dict[str, Api] = {}
 
@@ -217,7 +219,7 @@ class ApiService:
 
             response.raise_for_status()
 
-            parsed_response = self._parse_chat_response(
+            parsed_response = await self._parse_chat_response(
                 response.json(),
                 structured=character is not None,
             )
@@ -227,18 +229,82 @@ class ApiService:
             return parsed_response
 
 
-    def _parse_chat_response(
+    async def _parse_chat_response(
         self,
         response: dict,
         structured: bool = False,
     ) -> dict:
         content = response["choices"][0]["message"]["content"]
 
-        if structured:
-            return json.loads(content)
+        if not structured:
+            return {
+                "segments": [
+                    content.strip()
+                ]
+            }
+
+        parsed_response = json.loads(content)
+
+        expressions = self._expression_service.get_all()
+        expression_names = [
+            expression.name
+            for expression in expressions
+        ]
+
+        expression_prompt = self._prompt_service.get("expressions_prompt")
+        expression_prompt = expression_prompt.replace(
+            "{{labels}}",
+            ", ".join(expression_names),
+        )
+
+        expression_tasks = [
+            self._get_expression_for_segment(
+                segment,
+                expression_prompt,
+            )
+            for segment in parsed_response["segments"]
+        ]
+
+        segment_expressions = await asyncio.gather(*expression_tasks)
 
         return {
             "segments": [
-                content.strip()
+                {
+                    "text": segment,
+                    "expression": expression,
+                }
+                for segment, expression in zip(
+                    parsed_response["segments"],
+                    segment_expressions,
+                )
             ]
         }
+        
+    async def _get_expression_for_segment(
+        self,
+        segment: str,
+        expression_prompt: str,
+    ) -> str:
+        payload = {
+            "model": self.default_model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": expression_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": segment,
+                },
+            ],
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.api_address}/v1/chat/completions",
+                json=payload,
+            )
+
+            response.raise_for_status()
+
+        return response.json()["choices"][0]["message"]["content"].strip().strip("*")
