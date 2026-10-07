@@ -1,32 +1,53 @@
 {
   "expressions": [
-    "admiration",
-    "amusement",
-    "anger",
-    "annoyance",
-    "approval",
-    "caring",
-    "confusion",
-    "curiosity",
-    "desire",
-    "disappointment",
-    "disapproval",
-    "disgust",
-    "embarrassment",
-    "excitement",
-    "fear",
-    "gratitude",
-    "grief",
-    "joy",
-    "love",
-    "nervousness",
-    "neutral",
-    "optimism",
-    "pride",
-    "realization",
-    "relief",
-    "remorse",
-    "sadness",
-    "surprise"
+    {
+      "name": "amusement",
+      "shared": "friendly"
+    },
+    {
+      "name": "anger",
+      "voice": true,
+      "voice_line": "I've had enough. Get out of my sight."
+    },
+    {
+      "name": "annoyance",
+      "shared": "anger"
+    },
+    {
+      "name": "confusion",
+      "voice": true,
+      "voice_line": "Wait, what? I don't understand what you mean."
+    },
+    {
+      "name": "curiosity",
+      "shared": "confusion"
+    },
+    {
+      "name": "excitement",
+      "shared": "friendly"
+    },
+    {
+      "name": "friendly",
+      "voice": true,
+      "voice_line": "Hey, good to see you! How have you been?"
+    },
+    {
+      "name": "joy",
+      "shared": "friendly"
+    },
+    {
+      "name": "neutral",
+      "voice": true,
+      "voice_line": "Not much going on right now. What's up with you?"
+    },
+    {
+      "name": "sadness",
+      "voice": true,
+      "voice_line": "I'm okay. I'm just having a difficult day."
+    },
+    {
+      "name": "surprise",
+      "shared": "confusion"
+    }
   ]
 }

@@ -12,3 +12,4 @@ class Config:
         self.api_file = self.configuration_dir / "api.json"
         self.user_file = self.configuration_dir / "user.json"
         self.prompts_file = self.configuration_dir / "prompts.json"
+        self.scene_mood_file = self.configuration_dir / "scene_mood.json"

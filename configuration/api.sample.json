@@ -1,0 +1,10 @@
+{
+  "apis": [
+    {
+      "id": "lm_studio",
+      "base_url": "http://localhost:1234",
+      "api_key": null,
+      "default_model": "magnum-v2-12b"
+    }
+  ]
+}

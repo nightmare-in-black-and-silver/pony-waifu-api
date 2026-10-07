@@ -10,7 +10,8 @@ from app.services.cast_service import CastService
 from app.services.api_service import ApiService
 from app.services.prompt_service import PromptService
 from app.services.user_service import UserService
-from app.services.expression_service import ExpressionsService
+from app.services.scene_service import SceneService
+from app.services.asset_service import AssetService
 
 
 config = Config()
@@ -24,14 +25,17 @@ prompt_service.load()
 user_service = UserService(config)
 user_service.load()
 
-expression_service = ExpressionsService(config)
-expression_service.load()
+asset_service = AssetService(config)
+asset_service.load()
+
+scene_service = SceneService(config=config,assets_service=asset_service)
+scene_service.load()
 
 
 api_service = ApiService(config, 
                          prompt_service=prompt_service, 
                          user_service=user_service, 
-                         expression_service=expression_service)
+                         expression_service=scene_service)
 api_service.load()
 
 
@@ -47,6 +51,9 @@ app.state.config = config
 app.state.cast_service = cast_service
 app.state.api_service = api_service
 app.state.prompt_service = prompt_service
+app.state.asset_service = asset_service
+app.state.scene_service = scene_service
+
 
 # V1 Routers
 app.include_router(health_router, prefix="/v1")

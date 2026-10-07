@@ -6,6 +6,7 @@ router = APIRouter()
 
 class ChatRequest(BaseModel):
     message: str
+    scene_mood: str = "neutral"
 
 
 @router.post("/chat")
@@ -35,4 +36,5 @@ async def chat(
     return await request.app.state.api_service.chat(
         message=chat_request.message,
         character=character,
+        scene_mood=chat_request.scene_mood,
     )

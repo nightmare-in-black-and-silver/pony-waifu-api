@@ -1,0 +1,11 @@
+{
+  "moods": [
+    "neutral",
+    "playful",
+    "romantic",
+    "intimate",
+    "tense",
+    "angry",
+    "sad"
+  ]
+}

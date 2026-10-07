@@ -8,7 +8,7 @@ from app.models.api.api import Api
 from app.models.cast.character import Character
 from app.services.prompt_service import PromptService
 from app.services.user_service import UserService
-from app.services.expression_service import ExpressionsService
+from app.services.scene_service import SceneService
 
 
 class ApiService:
@@ -17,7 +17,7 @@ class ApiService:
         config: Config,
         prompt_service: PromptService,
         user_service: UserService,
-        expression_service: ExpressionsService,
+        expression_service: SceneService,
     ):
         self._config = config
         self._prompt_service = prompt_service
@@ -120,6 +120,7 @@ class ApiService:
         self,
         message: str,
         character: Character | None = None,
+        scene_mood: str = "neutral",
     ) -> dict:
         if self.default_model is None:
             raise RuntimeError("No LM Studio default model specified")
@@ -157,10 +158,18 @@ class ApiService:
                     f" {user.name} is also known by the following nicknames: "
                     f"{', '.join(user.nicknames)}."
                 )
+            
+            scene_context_prompt = self._prompt_service.get("scene_context_prompt")
+
+            scene_context_prompt = scene_context_prompt.replace(
+                "{{current_mood}}",
+                scene_mood,
+            )
 
             full_system_prompt = (
                 f"{system_prompt}\n\n"
                 f"{user_prompt}\n\n"
+                f"{scene_context_prompt}\n\n"
                 f"Your name is {character.name}.\n\n"
                 f"{character.silly_tavern.description}\n\n"
                 f"{character.silly_tavern.personality}\n\n"
@@ -222,6 +231,7 @@ class ApiService:
             parsed_response = await self._parse_chat_response(
                 response.json(),
                 structured=character is not None,
+                scene_mood=scene_mood,
             )
 
             # Future expression selection and async TTS processing here.
@@ -233,6 +243,7 @@ class ApiService:
         self,
         response: dict,
         structured: bool = False,
+        scene_mood: str = "neutral",
     ) -> dict:
         content = response["choices"][0]["message"]["content"]
 
@@ -245,7 +256,7 @@ class ApiService:
 
         parsed_response = json.loads(content)
 
-        expressions = self._expression_service.get_all()
+        expressions = self._expression_service.get_expressions()
         expression_names = [
             expression.name
             for expression in expressions
@@ -256,6 +267,25 @@ class ApiService:
             "{{labels}}",
             ", ".join(expression_names),
         )
+        
+        moods = self._expression_service.get_scene_moods()
+
+        scene_mood_prompt = self._prompt_service.get("scene_mood_prompt")
+
+        scene_mood_prompt = scene_mood_prompt.replace(
+            "{{current_mood}}",
+            scene_mood,
+        )
+
+        scene_mood_prompt = scene_mood_prompt.replace(
+            "{{moods}}",
+            ", ".join(moods),
+        )
+
+        scene_mood_prompt = scene_mood_prompt.replace(
+            "{{response}}",
+            "\n".join(parsed_response["segments"]),
+        )
 
         expression_tasks = [
             self._get_expression_for_segment(
@@ -265,13 +295,25 @@ class ApiService:
             for segment in parsed_response["segments"]
         ]
 
-        segment_expressions = await asyncio.gather(*expression_tasks)
+        full_response = "\n".join(
+            parsed_response["segments"]
+        )
+
+        scene_mood_task = self._get_scene_mood(
+            scene_mood_prompt,
+        )
+
+        segment_expressions, scene_mood = await asyncio.gather(
+            asyncio.gather(*expression_tasks),
+            scene_mood_task,
+        )
 
         return {
             "segments": [
                 {
                     "text": segment,
                     "expression": expression,
+                    "scene_mood": scene_mood,
                 }
                 for segment, expression in zip(
                     parsed_response["segments"],
@@ -285,16 +327,17 @@ class ApiService:
         segment: str,
         expression_prompt: str,
     ) -> str:
+        expression_prompt = expression_prompt.replace(
+            "{{response}}",
+            segment,
+        )
+
         payload = {
             "model": self.default_model,
             "messages": [
                 {
                     "role": "system",
                     "content": expression_prompt,
-                },
-                {
-                    "role": "user",
-                    "content": segment,
                 },
             ],
         }
@@ -308,3 +351,27 @@ class ApiService:
             response.raise_for_status()
 
         return response.json()["choices"][0]["message"]["content"].strip().strip("*")
+    
+    async def _get_scene_mood(
+        self,
+        scene_mood_prompt: str,
+    ) -> str:
+        payload = {
+            "model": self.default_model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": scene_mood_prompt,
+                },
+            ],
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.api_address}/v1/chat/completions",
+                json=payload,
+            )
+
+            response.raise_for_status()
+
+        return response.json()["choices"][0]["message"]["content"].strip()
