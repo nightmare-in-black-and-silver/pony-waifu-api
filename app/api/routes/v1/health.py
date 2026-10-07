@@ -8,6 +8,4 @@ app = FastAPI(
     version="0.1.0",
 )
 
-
-# V1 Routers
 app.include_router(health_router, prefix="/v1")
