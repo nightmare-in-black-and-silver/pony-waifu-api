@@ -1,0 +1,16 @@
+{
+  "endpoints": [
+    {
+      "id": "text_generator_llm",
+      "base_url": "http://localhost:1234",
+      "api_key": null,
+      "default_model": "your-local-model-id"
+    },
+    {
+      "id": "speech_generator_llm",
+      "base_url": "http://localhost:8000",
+      "api_key": null,
+      "default_model": null
+    }
+  ]
+}

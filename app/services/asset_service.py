@@ -1,7 +1,6 @@
 from app.config import Config
 from app.models.assets.assets import Assets
 
-
 class AssetService:
     def __init__(self, config: Config):
         self._config = config
@@ -57,3 +56,41 @@ class AssetService:
             return False
 
         return expression_id in assets.expressions
+    
+    def get_expression_file(
+        self,
+        character_id: str,
+        expression_id: str,
+    ) -> str | None:
+        assets = self._assets.get(character_id)
+
+        if assets is None:
+            return None
+
+        files = assets.expressions.get(expression_id)
+
+        if not files:
+            return None
+
+        return files[0]
+    
+    def get_expression_bytes(
+        self,
+        character_id: str,
+        expression_id: str,
+    ) -> bytes | None:
+        filename = self.get_expression_file(
+            character_id=character_id,
+            expression_id=expression_id,
+        )
+
+        if filename is None:
+            return None
+
+        path = (
+            self._config.expression_files_dir
+            / character_id
+            / filename
+        )
+
+        return path.read_bytes()

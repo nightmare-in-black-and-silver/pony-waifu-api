@@ -1,0 +1,14 @@
+{
+  "pony": {
+    "name": "Pony",
+    "description": "Ponies are quadrupedal equines with four legs ending in hooves, rather than human hands, fingers, or feet. They have muzzles, manes, tails, and expressive ears. Their forelegs and hooves are used for physical interaction with objects. Pegasus ponies additionally possess feathered wings, while unicorn ponies possess a horn."
+  },
+  "dragon": {
+    "name": "Dragon",
+    "description": "Dragons possess scales, claws, tails, and reptilian anatomy. Their exact physical characteristics, including wings and horns, vary by individual."
+  },
+  "changeling": {
+    "name": "Changeling",
+    "description": "Changelings are quadrupedal, insectoid-equine creatures with hooves, horns, wings, and the ability to change their appearance."
+  }
+}
