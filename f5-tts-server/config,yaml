@@ -1,0 +1,77 @@
+voices:
+  shakedown:
+    anger:
+      ref_file: voices/shakedown/shakedown_anger.wav
+      ref_text: >-
+        Are you fucking kidding me? Get the hell out of my face before I really
+        lose my temper.
+
+    aroused:
+      ref_file: voices/shakedown/shakedown_aroused.wav
+      ref_text: Oh god... yes... there... that... oh god yes...
+
+    confusion:
+      ref_file: voices/shakedown/shakedown_confusion.wav
+      ref_text: Wait, what? I don't get it. What the hell are you talking about?
+
+    desire:
+      ref_file: voices/shakedown/shakedown_desire.wav
+      ref_text: Hey lover girl, so glad you came.
+
+    embarrassment:
+      ref_file: voices/shakedown/shakedown_embarrassment.wav
+      ref_text: Shut up! I ain't embarrassed, okay? Just quit looking at me like that!
+
+    excitement:
+      ref_file: voices/shakedown/shakedown_excitement.wav
+      ref_text: >-
+        Oh, hell yeah! Now that's what I'm talking about! Come on, let's fucking
+        go!
+
+    fear:
+      ref_file: voices/shakedown/shakedown_fear.wav
+      ref_text: >-
+        Okay, yeah, this is bad. This is really fucking bad. We need to get
+        out of here.
+
+    friendly:
+      ref_file: voices/shakedown/shakedown_friendly.wav
+      ref_text: Hey, good to see ya! Come hang out for a bit. What's been going on?
+
+    love:
+      ref_file: voices/shakedown/shakedown_love.wav
+      ref_text: >-
+        Hey, c'mere. You know I love having you around, right? You mean a hell
+        of a lot to me.
+
+    neutral:
+      ref_file: voices/shakedown/shakedown_neutral.wav
+      ref_text: >-
+        Yeah, I'm just hanging out. Nothing much going on right now. What's
+        up with you?
+
+    orgasm_loud:
+      ref_file: voices/shakedown/shakedown_orgasm_loud.wav
+      ref_text: Oh god... yes... there... that... oh god yes...
+
+    orgasm_panting:
+      ref_file: voices/shakedown/shakedown_orgasm_panting.wav
+      ref_text: Oh god... yes... there... that... oh god yes...
+
+    sadness:
+      ref_file: voices/shakedown/shakedown_sadness.wav
+      ref_text: >-
+        Yeah... I'm okay. Just kinda having a rough time right now. Don't really
+        wanna talk about it.
+
+    sleepy:
+      ref_file: voices/shakedown/shakedown_sleepy.wav
+      ref_text: >-
+        Mmm... I'm awake. Mostly. Just gimme another minute, okay? I'm fucking
+        exhausted.
+
+    surprise:
+      ref_file: voices/shakedown/shakedown_surprise.wav
+      ref_text: >-
+        Whoa, what the fuck?! Where the hell did that come from? I wasn't expecting
+        that!
