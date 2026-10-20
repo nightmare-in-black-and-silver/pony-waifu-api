@@ -8,8 +8,9 @@ class Config:
         self.expression_files_dir = self.root_dir / "assets" / "expressions"
         
         self.cast_file = self.configuration_dir / "cast.json"
+        self.anatomy_file = self.configuration_dir / "anatomy.json"
         self.expressions_file = self.configuration_dir / "expressions.json"
-        self.api_file = self.configuration_dir / "api.json"
+        self.llm_endpoints_file = self.configuration_dir / "llm_endpoints.json"
         self.user_file = self.configuration_dir / "user.json"
-        self.prompts_file = self.configuration_dir / "prompts.json"
+        self.instruction_template_file = self.configuration_dir / "instruction_templates.json"
         self.scene_mood_file = self.configuration_dir / "scene_mood.json"

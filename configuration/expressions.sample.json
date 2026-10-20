@@ -1,53 +1,140 @@
 {
   "expressions": [
     {
+      "name": "admiration",
+      "shared": "love"
+    },
+    {
       "name": "amusement",
       "shared": "friendly"
     },
     {
       "name": "anger",
-      "voice": true,
-      "voice_line": "I've had enough. Get out of my sight."
+      "voice": true
     },
     {
       "name": "annoyance",
       "shared": "anger"
     },
     {
+      "name": "approval",
+      "shared": "friendly"
+    },
+    {
+      "name": "aroused",
+      "voice": true
+    },
+    {
+      "name": "asleep",
+      "shared": "sleepy"
+    },
+    {
+      "name": "caring",
+      "shared": "love"
+    },
+    {
       "name": "confusion",
-      "voice": true,
-      "voice_line": "Wait, what? I don't understand what you mean."
+      "voice": true
     },
     {
       "name": "curiosity",
       "shared": "confusion"
     },
     {
+      "name": "desire",
+      "voice": true
+    },
+    {
+      "name": "disappointment",
+      "shared": "sadness"
+    },
+    {
+      "name": "disapproval",
+      "shared": "anger"
+    },
+    {
+      "name": "disgust",
+      "shared": "anger"
+    },
+    {
+      "name": "embarrassment",
+      "voice": true
+    },
+    {
       "name": "excitement",
-      "shared": "friendly"
+      "voice": true
+    },
+    {
+      "name": "fear",
+      "voice": true
     },
     {
       "name": "friendly",
-      "voice": true,
-      "voice_line": "Hey, good to see you! How have you been?"
+      "voice": true
     },
     {
-      "name": "joy",
+      "name": "gratitude",
       "shared": "friendly"
     },
     {
+      "name": "grief",
+      "shared": "sadness"
+    },
+    {
+      "name": "joy",
+      "shared": "excitement"
+    },
+    {
+      "name": "love",
+      "voice": true
+    },
+    {
+      "name": "nervousness",
+      "shared": "fear"
+    },
+    {
       "name": "neutral",
-      "voice": true,
-      "voice_line": "Not much going on right now. What's up with you?"
+      "voice": true
+    },
+    {
+      "name": "optimism",
+      "shared": "friendly"
+    },
+    {
+      "name": "orgasm",
+      "voice": true
+    },
+    {
+      "name": "pride",
+      "shared": "friendly"
+    },
+    {
+      "name": "realization",
+      "shared": "confusion"
+    },
+    {
+      "name": "relief",
+      "shared": "friendly"
+    },
+    {
+      "name": "remorse",
+      "shared": "sadness"
     },
     {
       "name": "sadness",
-      "voice": true,
-      "voice_line": "I'm okay. I'm just having a difficult day."
+      "voice": true
+    },
+    {
+      "name": "sleepy",
+      "voice": true
+    },
+    {
+      "name": "stoned",
+      "shared": "sleepy"
     },
     {
       "name": "surprise",
-      "shared": "confusion"
+      "voice": true
     }
   ]
 }
