@@ -39,10 +39,24 @@ class AssetService:
 
                 if files:
                     expressions[expression_name] = files
+                    
+            profile_picture_path = (
+                self._config.root_dir
+                / "assets"
+                / "pfps"
+                / f"{character_dir.name}.png"
+            )
+
+            profile_picture = (
+                profile_picture_path.read_bytes()
+                if profile_picture_path.is_file()
+                else None
+            )
 
             self._assets[character_dir.name] = Assets(
                 expressions=expressions,
                 voices={},
+                profile_picture=profile_picture,
             )
 
     def has_expression(
@@ -94,3 +108,7 @@ class AssetService:
         )
 
         return path.read_bytes()
+    
+    def get_profile_picture(self, character_id: str) -> bytes | None:
+        assets = self._assets.get(character_id)
+        return assets.profile_picture if assets else None

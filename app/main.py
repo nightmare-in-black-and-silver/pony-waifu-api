@@ -33,7 +33,7 @@ speech_service.load()
 llm_services = LLMService(config=config, scene_service=scene_service, cast_service=cast_service, speech_service=speech_service, asset_service=asset_service, user_service=user_service)
 llm_services.load()
 
-websocket_service = WebSocketService(llm_service=llm_services, asset_service=asset_service)
+websocket_service = WebSocketService(llm_service=llm_services, asset_service=asset_service, cast_service=cast_service)
 
 
 app = FastAPI(
